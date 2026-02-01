@@ -1,2 +1,3 @@
-# viper-zed
+# Zed Viper
+
 A Zed extension for Viper
