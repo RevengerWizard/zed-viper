@@ -1,18 +1,12 @@
 # Viper Language Extension for Zed
+id = "zed-viper"
 name = "Viper"
-description = "Syntax highlighting and language support for the Viper programming language"
+description = "Viper support."
 version = "0.1.0"
+schema_version = 1
 repository = "https://github.com/revengerwizard/zed-viper"
 authors = ["Wizard"]
 
-[languages]
-viper = { extensions = ["vp"], name = "Viper" }
-
-[grammars]
-viper = { source = { local = "tree-sitter-viper" } }
-
-[[language_servers]]
-name = "viper-lsp"
-language = "viper"
-# Optional: configure language server settings
-# command = "viper-lsp"
+[grammars.viper]
+repository = "https://github.com/revengerwizard/tree-sitter-viper"
+rev = "867a85942683a235ec3213b44de3378313e99d05"

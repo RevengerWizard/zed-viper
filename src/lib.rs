@@ -1,14 +1,11 @@
-use zed_extension_api::{self as zed, Result};
+use zed_extension_api as zed;
 
-pub fn init() -> Result<()> {
-    zed::register_language("viper", "Viper");
+struct ViperExtension;
 
-    // Configure the language with tree-sitter grammar
-    zed::register_language_server(
-        "viper-lsp",
-        "Language server for Viper",
-        zed::LanguageServerInstallationStatus::None,
-    );
-
-    Ok(())
+impl zed::Extension for ViperExtension {
+    fn new() -> Self {
+        ViperExtension
+    }
 }
+
+zed::register_extension!(ViperExtension);
