@@ -1,5 +1,5 @@
 # Viper Language Extension for Zed
-id = "zed-viper"
+id = "viper"
 name = "Viper"
 description = "Viper support."
 version = "0.1.0"
