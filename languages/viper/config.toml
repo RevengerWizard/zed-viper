@@ -1,5 +1,6 @@
 name = "Viper"
 grammar = "viper"
+path_suffixes = ["vp"]
 line_comments = ["// "]
 block_comment = ["/*", "*/"]
 autoclose_before = ";:.,=}])>"

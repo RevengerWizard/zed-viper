@@ -1,17 +1,17 @@
 ;; Keywords - Control flow
-["if" "else" "while" "for" "break" "continue" "return"] @keyword
+["if" "else" "while" "for" "break" "continue" "return" "switch" "case" "default"] @keyword
 
 ;; Keywords - Declarations
-["fn" "var" "let" "const" "def" "alias" "struct" "union" "enum" "type"] @keyword
+["fn" "var" "let" "def" "alias" "struct" "union" "enum" "type"] @keyword
 
 ;; Keywords - Modifiers
-["pub" "inline" "noreturn" "asm" "import" "from" "as"] @keyword
+["pub" "inline" "noreturn" "extern" "export" "asm" "import" "from"] @keyword
 
 ;; Keywords - Operators
 ["and" "or" "not"] @keyword
 
 ;; Keywords - Type operations
-["cast" "intcast" "floatcast" "ptrcast" "bitcast" "typeof" "sizeof" "alignof" "offsetof" "typeid"] @keyword
+["cast" "intcast" "floatcast" "ptrcast" "bitcast" "typeof" "sizeof" "alignof" "offsetof"] @keyword
 
 ;; Primitive types
 ["void" "bool" "int8" "int16" "int32" "int64" "uint8" "uint16" "uint32" "uint64" "isize" "usize" "float32" "float64"] @type.builtin
@@ -30,27 +30,49 @@
 (number) @number
 (float) @number
 
+;; Enums
+(enum_declaration name: (identifier) @type)
+(enum_declaration base_type: (_) @type)
+(enum_variant name: (identifier) @constant)
+
+;; Switch statements with case highlighting
+(switch_statement
+  "switch" @keyword
+  condition: (_)
+  (case_arm
+    "case" @keyword
+    value: (_)
+    (block) @none))
+
+(default_arm
+  "default" @keyword
+  (block) @none)
+
+;; Packed modifier on structs
+(struct_declaration "packed" @keyword)
+
 ;; Function declarations
-(function_declaration
-  name: (identifier) @function)
+(fn_declaration (identifier) @function)
 
 ;; Variable declarations
-(variable_declaration
+(var_declaration
   name: (identifier) @variable)
+(var_declaration ":" @punctuation.delimiter)
+(var_declaration init_type: (_) @type)
 
 ;; Let declarations
 (let_declaration
   name: (identifier) @variable)
+(let_declaration ":" @punctuation.delimiter)
+(let_declaration init_type: (_) @type)
 
-;; Constant declarations
-(constant_declaration
+;; Const definitions
+(def_declaration
   name: (identifier) @constant)
+(def_declaration ":" @punctuation.delimiter)
+(def_declaration init_type: (_) @type)
 
-;; Definitions
-(definition
-  name: (identifier) @constant)
-
-;; Type declarations
+;; Type declarations (structs, unions, enums, aliases)
 (struct_declaration
   name: (identifier) @type)
 
@@ -63,27 +85,51 @@
 (alias_declaration
   name: (identifier) @type)
 
-;; Parameters
+;; Function parameters
 (parameter
   name: (identifier) @variable.parameter)
 
-;; Function types
+;; Complex types
 (function_type) @type
-
-;; Pointer types
 (pointer_type) @type
 
-;; Array types
-(array_type) @type
+;; Array type syntax
+(array_type (base_type) @type)
+(array_type "[" @punctuation.bracket "]" @punctuation.bracket)
 
-;; Operators
+;; Struct initialization and field access
+(struct_initializer) @constructor
+(struct_element) @property
+
+;; Const modifier and user-defined types
+(user_type "const" @keyword)
+(user_type (identifier) @type)
+
+;; Function calls - distinguishes from regular identifiers
+(postfix_expr
+  (primary_expr (identifier) @function.call)
+  (arguments))
+
+;; Assignment operators
 ["=" "+=" "-=" "*=" "/=" "%=" "&=" "|=" "^=" "<<=" ">>="] @operator
-["+" "-" "*" "/" "%"] @operator
-["&" "|" "^" "~" "<<" ">>"] @operator
-["==" "!=" "<" ">" "<=" ">="] @operator
-["!" "++" "--"] @operator
-["." "->" "?"] @operator
 
-;; Punctuation
+;; Arithmetic operators
+["+" "-" "*" "/" "%"] @operator
+
+;; Bitwise operators
+["&" "|" "^" "~" "<<" ">>"] @operator
+
+;; Comparison operators
+["==" "!=" "<" ">" "<=" ">="] @operator
+
+;; Unary operators
+["!" "++" "--"] @operator
+
+;; Member access and optional chaining
+["." "?"] @operator
+
+;; Brackets and braces
 ["(" ")" "[" "]" "{" "}"] @punctuation.bracket
+
+;; Delimiters
 [";" "," ":"] @punctuation.delimiter
