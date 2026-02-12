@@ -35,18 +35,20 @@
 (enum_declaration base_type: (_) @type)
 (enum_variant name: (identifier) @constant)
 
-;; Switch statements with case highlighting
+;; Switch
 (switch_statement
   "switch" @keyword
   condition: (_)
   (case_arm
     "case" @keyword
-    value: (_)
-    (block) @none))
+    value: (_)))
 
 (default_arm
-  "default" @keyword
-  (block) @none)
+  "default" @keyword)
+
+;; Ensure blocks inside switch arms are highlighted
+(case_arm (short_block (block) @none))
+(default_arm (short_block (block) @none))
 
 ;; Packed modifier on structs
 (struct_declaration "packed" @keyword)
