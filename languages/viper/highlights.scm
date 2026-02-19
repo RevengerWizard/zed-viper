@@ -5,7 +5,7 @@
 ["fn" "var" "let" "def" "alias" "struct" "union" "enum" "type"] @keyword
 
 ;; Keywords - Modifiers
-["pub" "inline" "noreturn" "extern" "export" "asm" "import" "from"] @keyword
+["pub" "inline" "noreturn" "extern" "export" "asm" "import" "from" "as"] @keyword
 
 ;; Keywords - Operators
 ["and" "or" "not"] @keyword
@@ -50,13 +50,13 @@
 (case_arm (short_block (block) @none))
 (default_arm (short_block (block) @none))
 
-;; Packed modifier on structs
+;; Packed modifier
 (struct_declaration "packed" @keyword)
 
-;; Function declarations
+;; Fn declarations
 (fn_declaration (identifier) @function)
 
-;; Variable declarations
+;; Var declarations
 (var_declaration
   name: (identifier) @variable)
 (var_declaration ":" @punctuation.delimiter)
@@ -68,13 +68,13 @@
 (let_declaration ":" @punctuation.delimiter)
 (let_declaration init_type: (_) @type)
 
-;; Const definitions
+;; Def declarations
 (def_declaration
   name: (identifier) @constant)
 (def_declaration ":" @punctuation.delimiter)
 (def_declaration init_type: (_) @type)
 
-;; Type declarations (structs, unions, enums, aliases)
+;; Type declarations
 (struct_declaration
   name: (identifier) @type)
 
@@ -87,51 +87,51 @@
 (alias_declaration
   name: (identifier) @type)
 
-;; Function parameters
+(type_declaration
+  name: (identifier) @type)
+
+;; Imports
+(import_alias name: (identifier) @variable)
+(import_alias alias: (identifier) @variable)
+
+;; Path Access
+(path_identifier (identifier) @variable)
+"::" @punctuation.delimiter
+
+;; Parameters
 (parameter
   name: (identifier) @variable.parameter)
 
-;; Complex types
+;; Function types
 (function_type) @type
+
+;; Pointer types
 (pointer_type) @type
 
-;; Array type syntax
+;; Array types
 (array_type (base_type) @type)
 (array_type "[" @punctuation.bracket "]" @punctuation.bracket)
 
-;; Struct initialization and field access
+;; Struct initializers
 (struct_initializer) @constructor
 (struct_element) @property
 
-;; Const modifier and user-defined types
 (user_type "const" @keyword)
 (user_type (identifier) @type)
 
-;; Function calls - distinguishes from regular identifiers
+;; Function Calls
 (postfix_expr
   (primary_expr (identifier) @function.call)
   (arguments))
 
-;; Assignment operators
+;; Operators
 ["=" "+=" "-=" "*=" "/=" "%=" "&=" "|=" "^=" "<<=" ">>="] @operator
-
-;; Arithmetic operators
 ["+" "-" "*" "/" "%"] @operator
-
-;; Bitwise operators
 ["&" "|" "^" "~" "<<" ">>"] @operator
-
-;; Comparison operators
 ["==" "!=" "<" ">" "<=" ">="] @operator
-
-;; Unary operators
 ["!" "++" "--"] @operator
-
-;; Member access and optional chaining
 ["." "?"] @operator
 
-;; Brackets and braces
+;; Punctuation
 ["(" ")" "[" "]" "{" "}"] @punctuation.bracket
-
-;; Delimiters
 [";" "," ":"] @punctuation.delimiter

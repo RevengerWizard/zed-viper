@@ -9,4 +9,4 @@ authors = ["Wizard"]
 
 [grammars.viper]
 repository = "https://github.com/revengerwizard/tree-sitter-viper"
-rev = "5f6c39c2a0fd3e26ac2a1629aaf7129863b3e548"
+rev = "14837ca4c9e7066ebafc92fab61c7ec9ca444d0f"
