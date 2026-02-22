@@ -94,9 +94,10 @@
 (import_alias name: (identifier) @variable)
 (import_alias alias: (identifier) @variable)
 
-;; Path Access
-(path_identifier (identifier) @variable)
-"::" @punctuation.delimiter
+;; Scoped access
+(scoped_identifier path: (_) @type)
+(scoped_identifier member: (identifier) @variable.member)
+(scoped_identifier "::" @punctuation.delimiter)
 
 ;; Parameters
 (parameter
@@ -134,4 +135,4 @@
 
 ;; Punctuation
 ["(" ")" "[" "]" "{" "}"] @punctuation.bracket
-[";" "," ":"] @punctuation.delimiter
+[";" "," ":" "::"] @punctuation.delimiter
